@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "QualiTracker"
+description = "A fast, trustworthy marketing website for QualiTracker, a digital quality management system and source-cited AI assistant built for East African medical laboratories."
+version = "1.0.0"
+id = "artifacts/qualitracker-website"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 23572
+
+[services.development]
+run = "pnpm --filter @workspace/qualitracker-website run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/qualitracker-website", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/qualitracker-website/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "23572"
+BASE_PATH = "/"
