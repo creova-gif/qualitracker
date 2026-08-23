@@ -10,6 +10,8 @@ servers:
 tags:
   - name: health
     description: Health operations
+  - name: leads
+    description: Newsletter signups and demo-request lead capture
 paths:
   /healthz:
     get:
@@ -24,6 +26,34 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /leads:
+    post:
+      operationId: createLead
+      tags: [leads]
+      summary: Capture a newsletter signup or demo-request lead
+      description: >
+        Validates and stores a lead (newsletter subscription or demo
+        request), records attribution, and — for newsletter signups —
+        forwards the contact to the configured newsletter provider.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateLeadRequest"
+      responses:
+        "201":
+          description: Lead captured
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LeadCreated"
+        "400":
+          description: Validation error
+        "409":
+          description: Already subscribed (duplicate email for this kind)
+        "429":
+          description: Too many requests
 components:
   schemas:
     HealthStatus:
@@ -32,5 +62,65 @@ components:
         status:
           type: string
       required:
+        - status
+    CreateLeadRequest:
+      type: object
+      properties:
+        kind:
+          type: string
+          enum: [newsletter, demo_request]
+        email:
+          type: string
+          # NOTE: intentionally not `format: email` — the orval version in
+          # this workspace (v8.23) generates zod-v4-style `zod.email()`,
+          # which does not exist on the pinned zod ^3.25 dependency. See
+          # the audit doc's "Tooling / build" section. Email shape is
+          # validated in the route handler instead.
+        firstName:
+          type: string
+        lastName:
+          type: string
+        institution:
+          type: string
+        role:
+          type: string
+        country:
+          type: string
+        source:
+          type: string
+          description: Where on the site this lead came from, e.g. "homepage", "footer"
+        consent:
+          type: boolean
+        utmSource:
+          type: string
+        utmMedium:
+          type: string
+        utmCampaign:
+          type: string
+        utmTerm:
+          type: string
+        utmContent:
+          type: string
+        referrer:
+          type: string
+        landingPage:
+          type: string
+        website:
+          type: string
+          description: Honeypot field. Real users never fill this in — leave empty.
+      required:
+        - kind
+        - email
+        - source
+        - consent
+    LeadCreated:
+      type: object
+      properties:
+        id:
+          type: string
+        status:
+          type: string
+      required:
+        - id
         - status
 

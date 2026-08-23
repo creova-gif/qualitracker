@@ -5,17 +5,7 @@
  * API specification
  * OpenAPI spec version: 0.1.0
  */
-export interface HealthStatus {
-  status: string;
-}
-
-export type CreateLeadRequestKind = typeof CreateLeadRequestKind[keyof typeof CreateLeadRequestKind];
-
-
-export const CreateLeadRequestKind = {
-  newsletter: 'newsletter',
-  demo_request: 'demo_request',
-} as const;
+import type { CreateLeadRequestKind } from './createLeadRequestKind';
 
 export interface CreateLeadRequest {
   kind: CreateLeadRequestKind;
@@ -38,9 +28,3 @@ export interface CreateLeadRequest {
   /** Honeypot field. Real users never fill this in — leave empty. */
   website?: string;
 }
-
-export interface LeadCreated {
-  id: string;
-  status: string;
-}
-

@@ -1,4 +1,5 @@
 import { useState, type FormEvent, type ReactNode } from 'react';
+import { submitLead, HONEYPOT_FIELD_NAME } from '@/lib/leads';
 import {
   ArrowDownRight,
   ArrowRight,
@@ -229,15 +230,84 @@ function LandingPage() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState('Pilot');
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const [newsletterState, setNewsletterState] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+  const [newsletterError, setNewsletterError] = useState<string | null>(null);
 
   function scrollToContact() {
     document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' });
     setMenuOpen(false);
   }
 
-  function submitForm(event: FormEvent<HTMLFormElement>) {
+  async function submitForm(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setSubmitted(true);
+    setSubmitError(null);
+
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    const honeypot = data.get(HONEYPOT_FIELD_NAME);
+    const institution = String(data.get('institution') ?? '').trim();
+    const country = String(data.get('country') ?? '').trim();
+    const role = String(data.get('role') ?? '').trim();
+    const email = String(data.get('email') ?? '').trim();
+
+    if (!institution || !country || !role || !email) {
+      setSubmitError('Please fill in every field.');
+      return;
+    }
+
+    setSubmitting(true);
+    try {
+      await submitLead({
+        kind: 'demo_request',
+        email,
+        institution,
+        role,
+        country,
+        source: 'homepage-contact',
+        consent: true,
+        website: honeypot ? String(honeypot) : undefined,
+      });
+      setSubmitted(true);
+    } catch (err) {
+      setSubmitError(
+        err instanceof Error && err.message === 'ALREADY_SUBSCRIBED'
+          ? "Looks like you've already requested a demo with this email."
+          : 'Something went wrong. Please try again.',
+      );
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  async function submitNewsletter(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    const email = String(data.get('newsletter-email') ?? '').trim();
+
+    if (!email) return;
+
+    setNewsletterState('submitting');
+    setNewsletterError(null);
+    try {
+      await submitLead({
+        kind: 'newsletter',
+        email,
+        source: 'footer',
+        consent: true,
+      });
+      setNewsletterState('success');
+      form.reset();
+    } catch (err) {
+      setNewsletterState('error');
+      setNewsletterError(
+        err instanceof Error && err.message === 'ALREADY_SUBSCRIBED'
+          ? "You're already on the list."
+          : 'Something went wrong. Please try again.',
+      );
+    }
   }
 
   return (
@@ -404,9 +474,15 @@ function LandingPage() {
                   <label className="block"><span className="mb-1.5 block text-xs font-bold text-[#315850]">Institution</span><input required name="institution" placeholder="e.g. Regional medical laboratory" className="w-full rounded-xl border border-[#cfd3bd] bg-[#eeefe4] px-4 py-3 text-sm text-[#17483f] outline-none transition-colors placeholder:text-[#8b9a8d] focus:border-[#17483f]" data-testid="input-institution" /></label>
                   <div className="grid gap-4 sm:grid-cols-2"><label className="block"><span className="mb-1.5 block text-xs font-bold text-[#315850]">Country</span><select required name="country" defaultValue="" className="w-full appearance-none rounded-xl border border-[#cfd3bd] bg-[#eeefe4] px-4 py-3 text-sm text-[#17483f] outline-none focus:border-[#17483f]" data-testid="select-country"><option value="" disabled>Select country</option><option>Kenya</option><option>Uganda</option><option>Tanzania</option><option>Rwanda</option><option>Ethiopia</option><option>Other</option></select></label><label className="block"><span className="mb-1.5 block text-xs font-bold text-[#315850]">Role</span><select required name="role" defaultValue="" className="w-full appearance-none rounded-xl border border-[#cfd3bd] bg-[#eeefe4] px-4 py-3 text-sm text-[#17483f] outline-none focus:border-[#17483f]" data-testid="select-role"><option value="" disabled>Select role</option><option>Lab director</option><option>QMS officer</option><option>Bench technologist</option><option>Accreditor</option><option>NGO health-systems partner</option></select></label></div>
                   <label className="block"><span className="mb-1.5 block text-xs font-bold text-[#315850]">Work email</span><input required type="email" name="email" placeholder="you@yourlab.org" className="w-full rounded-xl border border-[#cfd3bd] bg-[#eeefe4] px-4 py-3 text-sm text-[#17483f] outline-none transition-colors placeholder:text-[#8b9a8d] focus:border-[#17483f]" data-testid="input-email" /></label>
+                  {/* Honeypot — hidden from real users, catches naive bots */}
+                  <label className="absolute -left-[9999px] h-0 w-0 overflow-hidden" aria-hidden="true">
+                    Leave this field empty
+                    <input tabIndex={-1} autoComplete="off" name={HONEYPOT_FIELD_NAME} />
+                  </label>
                 </div>
-                <button type="submit" className="qt-button mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-[#e7774d] px-5 py-3.5 text-sm font-bold text-[#f7f4ed] hover:bg-[#c96040]" data-testid="button-submit-demo">Request a demo <ArrowRight size={16} /></button>
-                <p className="mt-4 text-center text-[10px] leading-4 text-[#7c8c80]">No network dependency in this demo. Your details stay on this page.</p>
+                {submitError && <p role="alert" className="mt-4 text-sm font-semibold text-[#b85d3c]">{submitError}</p>}
+                <button type="submit" disabled={submitting} className="qt-button mt-6 flex w-full items-center justify-center gap-2 rounded-full bg-[#e7774d] px-5 py-3.5 text-sm font-bold text-[#f7f4ed] hover:bg-[#c96040] disabled:cursor-not-allowed disabled:opacity-60" data-testid="button-submit-demo">{submitting ? 'Sending…' : 'Request a demo'} {!submitting && <ArrowRight size={16} />}</button>
+                <p className="mt-4 text-center text-[10px] leading-4 text-[#7c8c80]">We'll only use this to follow up about the pilot cohort.</p>
               </form>
             )}
           </div>
@@ -414,6 +490,24 @@ function LandingPage() {
       </section>
 
       <footer className="bg-[#17483f] text-[#f7f4ed]">
+        <div className="mx-auto max-w-[1240px] border-b border-[#265950] px-5 py-10 lg:px-8">
+          <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+            <div>
+              <p className="font-mono-ui text-[10px] uppercase tracking-[.14em] text-[#b6c7bc]">Stay ahead of what's happening with QualiTracker</p>
+              <p className="mt-1 text-sm text-[#cbd4c3]">One email, occasionally. No spam.</p>
+            </div>
+            {newsletterState === 'success' ? (
+              <p className="text-sm font-semibold text-[#d6d9b2]" data-testid="text-newsletter-success">You're in. We'll keep you posted.</p>
+            ) : (
+              <form onSubmit={submitNewsletter} className="flex w-full max-w-md flex-col gap-2 sm:flex-row">
+                <label className="sr-only" htmlFor="newsletter-email">Email address</label>
+                <input id="newsletter-email" required type="email" name="newsletter-email" placeholder="you@yourlab.org" className="w-full rounded-full border border-[#3a6a5f] bg-[#12352e] px-4 py-2.5 text-sm text-[#f7f4ed] outline-none placeholder:text-[#79958c] focus:border-[#d6d9b2]" data-testid="input-newsletter-email" />
+                <button type="submit" disabled={newsletterState === 'submitting'} className="qt-button shrink-0 rounded-full bg-[#d6d9b2] px-5 py-2.5 text-xs font-bold text-[#17483f] hover:bg-[#c7cb9e] disabled:cursor-not-allowed disabled:opacity-60" data-testid="button-newsletter-subscribe">{newsletterState === 'submitting' ? 'Subscribing…' : 'Subscribe'}</button>
+              </form>
+            )}
+          </div>
+          {newsletterState === 'error' && newsletterError && <p role="alert" className="mt-2 text-xs font-semibold text-[#e7774d]" data-testid="text-newsletter-error">{newsletterError}</p>}
+        </div>
         <div className="mx-auto flex max-w-[1240px] flex-col gap-7 px-5 py-10 lg:flex-row lg:items-center lg:justify-between lg:px-8">
           <BrandMark light />
           <div className="flex flex-wrap gap-x-6 gap-y-3 font-mono-ui text-[10px] uppercase tracking-[.11em] text-[#9fb2a4]">{navItems.map((item) => <a key={item.href} href={item.href} className="hover:text-[#d6d9b2]" data-testid={`link-footer-${item.label.toLowerCase()}`}>{item.label}</a>)}<a href="#contact" className="hover:text-[#d6d9b2]" data-testid="link-footer-contact">Request demo</a></div>
