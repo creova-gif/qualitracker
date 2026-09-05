@@ -96,3 +96,13 @@ User asked directly to add the two remaining items. Answered plainly first: won'
 | Real performance regression caught and fixed: first attempt (`radial-gradient` computed per-pixel) cost ~1s of FCP (2.1s → 3.1s, performance 90 → 85) | **Caught and fixed** — same "measure before declaring done" discipline as every prior wave. Rebuilt as a tiny tiled SVG data-URI instead of a computed gradient function; performance fully recovered to 95/100/100/100, FCP back to 2.1s, LCP improved to 2.6s. |
 | Live QualiBOT chat widget on the marketing site | **Declined by the user** — real backend/infra work (a live endpoint, auth, hosting), correctly scoped as out of reach for a styling pass. Current scripted, clearly-labeled illustrative demo stays as-is. |
 | Verification | Typecheck/lint/11 tests pass. Visually confirmed on home and `/product`. |
+
+## Wave 9 — texture made more distinctive, then corrected for legibility
+
+User asked whether scores are "100 now" and to make the texture more creative. Answered plainly: Accessibility/Best Practices/SEO are genuinely 100; Performance sits at 90-95 with normal run-to-run variance and isn't literally 100 — reaching 100 would mean cutting real content, not worth trading.
+
+Replaced the plain dot-grid with a small graph micro-pattern tile (5 nodes of two sizes + 3 faint connecting edges, 56x56, tiled) — a real upgrade over generic dots, still ties to the product's own graph identity.
+
+**First attempt overshot badly**: initial opacities (0.5/0.55 fill, 0.22 stroke) looked fine as an isolated tile preview but, once repeated across a full hero, the connecting lines created a strong, distracting diagonal network pattern that nearly obscured the headline entirely — caught by an actual screenshot, not assumed correct from the code. Cut opacity roughly 5-6x (0.09/0.10 fill, 0.05 stroke) and re-verified: the pattern reads on close inspection but sits genuinely behind the text at normal viewing distance. Lesson for next time: a tileable pattern's opacity has to be judged at full-page scale, not as a single isolated tile.
+
+Performance held in the same 90-95 noise band as before (not a new regression — same tile complexity, only opacity values changed). Accessibility/Best Practices/SEO held at 100.
