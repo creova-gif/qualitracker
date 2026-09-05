@@ -72,3 +72,16 @@ This is a maturity gap, not a creativity gap. Every one of these devices is *exa
 1. **A real comparison table** (QualiTracker vs. shared-drive vs. generic QMS) — the one concretely open, zero-fabrication-risk gap left on this list.
 2. **A lightweight announcement-bar pattern**, held in reserve until there's a real "shipped" thing to announce (ties to the still-blocked changelog decision from Wave 3/5).
 3. Everything else on this list is either already competitive or correctly not being chased because chasing it would mean fabricating.
+
+## Wave 7 — pushed toward "10/10," honestly
+
+User asked to push every score to 10/10. Flagged plainly before starting: usage stats, testimonials, press, and real release history are capped by evidence, not effort — closing those with anything but real time/usage would be exactly the fabrication this project has refused throughout. Pushed everything else as far as it honestly goes:
+
+| Item | Status |
+|---|---|
+| Comparison table (item 1 above) | **Shipped** — `ComparisonTable` component, 5 rows, added to the homepage right after "The reality" section. Modeled on Graphify's own "Graph vs Vector DB vs Grep" structure: generic approaches (shared drive/paper, generic QMS software), never a named competitor. Every QualiTracker cell restates a fact already established elsewhere on the site; every generic-QMS cell is hedged ("varies by vendor") rather than asserting anything unverified about a competitor category. |
+| Hero color-highlighted word | **Shipped** — "works" in Quality Gold within the hero headline, matching Graphify's device ("reason **over**"). On-brand: gold in the hero is one of the two contexts the brand kit allows it. |
+| Verification | Typecheck/lint/11 tests pass. Visually confirmed in-browser; mobile width has no page-level overflow (the table scrolls within its own container). Lighthouse: 90/100/100/100 (was 95/100/100/100) — LCP 2.5s → 3.4s from the added section, TBT still 0ms and CLS still 0, so it's the same "more real content, later paint" trade-off seen since Wave 2, not new jank. |
+| Announcement bar (item 2 above) | **Still deliberately not built** — same real-release-history blocker as the changelog. |
+| Usage stats / testimonials / press / real semantic release history | **Not pursued, on purpose** — no honest way to reach 10/10 here without fabricating; flagged to the user directly rather than silently scored as done. |
+| Textured background, live chat widget | **Not pursued** — brand constraint and infrastructure gap respectively, not something the next design pass closes. |

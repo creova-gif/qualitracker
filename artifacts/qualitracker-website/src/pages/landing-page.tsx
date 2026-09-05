@@ -10,6 +10,7 @@ import { AccreditationVisionSection } from '@/components/site/accreditation-visi
 import { QualityCommandCenter } from '@/components/product/quality-command-center';
 import { QualityIntelligenceGraph } from '@/components/product/quality-intelligence-graph';
 import { LifecycleTimeline } from '@/components/product/lifecycle-timeline';
+import { ComparisonTable } from '@/components/site/comparison-table';
 import { useDocumentMeta } from '@/lib/use-document-meta';
 import { Reveal } from '@/components/site/reveal';
 import { motion, useReducedMotion } from 'framer-motion';
@@ -100,7 +101,7 @@ function LandingPage() {
           <Reveal>
             <p className="qt-eyebrow qt-eyebrow-light">Standards-aware · ISO 15189 · WHO LQMS · SLIPTA</p>
             <h1 className="font-brand mt-5 max-w-[960px] text-[clamp(3.5rem,9vw,8rem)] font-bold leading-[0.94] tracking-[-.03em]" style={{ color: '#FFFFFF' }}>
-              Quality that works for every lab.
+              Quality that <span style={{ color: 'var(--qt-quality-gold)' }}>works</span> for every lab.
             </h1>
           </Reveal>
           <div className="mt-10 grid items-center gap-14 lg:grid-cols-[1.05fr_.95fr] lg:gap-10">
@@ -135,6 +136,18 @@ function LandingPage() {
           </Reveal>
           <div className="mt-10">
             <RealitySequence />
+          </div>
+        </div>
+      </section>
+
+      {/* Comparison — every QualiTracker cell restates a fact already
+          established elsewhere on this page/site; "generic QMS" cells are
+          deliberately hedged, never a specific competitor claim. */}
+      <section className="py-20 lg:py-24" style={{ background: 'var(--qt-lab-grey)' }}>
+        <div className="mx-auto max-w-[1280px] px-5 lg:px-8">
+          <SectionHeader eyebrow="Why it's different" title="Not a bigger binder. A different kind of system." />
+          <div className="mt-10">
+            <ComparisonTable />
           </div>
         </div>
       </section>
