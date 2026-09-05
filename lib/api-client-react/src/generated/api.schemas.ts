@@ -15,6 +15,8 @@ export type CreateLeadRequestKind = typeof CreateLeadRequestKind[keyof typeof Cr
 export const CreateLeadRequestKind = {
   newsletter: 'newsletter',
   demo_request: 'demo_request',
+  waitlist: 'waitlist',
+  talk_to_team: 'talk_to_team',
 } as const;
 
 export interface CreateLeadRequest {
@@ -25,6 +27,10 @@ export interface CreateLeadRequest {
   institution?: string;
   role?: string;
   country?: string;
+  /** Free-text organization/laboratory type, e.g. "Medical laboratory", "Testing laboratory", "Research laboratory", "Multi-site network" */
+  organizationType?: string;
+  /** Free-text context — waitlist detail (challenge, current system, number of locations, interest area) or a talk-to-team inquiry, prefixed with its inquiry category. */
+  message?: string;
   /** Where on the site this lead came from, e.g. "homepage", "footer" */
   source: string;
   consent: boolean;

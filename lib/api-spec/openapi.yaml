@@ -68,7 +68,7 @@ components:
       properties:
         kind:
           type: string
-          enum: [newsletter, demo_request]
+          enum: [newsletter, demo_request, waitlist, talk_to_team]
         email:
           type: string
           # NOTE: intentionally not `format: email` — the orval version in
@@ -86,6 +86,12 @@ components:
           type: string
         country:
           type: string
+        organizationType:
+          type: string
+          description: "Free-text organization/laboratory type, e.g. \"Medical laboratory\", \"Testing laboratory\", \"Research laboratory\", \"Multi-site network\""
+        message:
+          type: string
+          description: Free-text context — waitlist detail (challenge, current system, number of locations, interest area) or a talk-to-team inquiry, prefixed with its inquiry category.
         source:
           type: string
           description: Where on the site this lead came from, e.g. "homepage", "footer"

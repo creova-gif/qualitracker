@@ -15,6 +15,10 @@ export interface CreateLeadRequest {
   institution?: string;
   role?: string;
   country?: string;
+  /** Free-text organization/laboratory type, e.g. "Medical laboratory", "Testing laboratory", "Research laboratory", "Multi-site network" */
+  organizationType?: string;
+  /** Free-text context — waitlist detail (challenge, current system, number of locations, interest area) or a talk-to-team inquiry, prefixed with its inquiry category. */
+  message?: string;
   /** Where on the site this lead came from, e.g. "homepage", "footer" */
   source: string;
   consent: boolean;

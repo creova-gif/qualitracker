@@ -22,13 +22,15 @@ export const HealthCheckResponse = zod.object({
  * @summary Capture a newsletter signup or demo-request lead
  */
 export const CreateLeadBody = zod.object({
-  "kind": zod.enum(['newsletter', 'demo_request']),
+  "kind": zod.enum(['newsletter', 'demo_request', 'waitlist', 'talk_to_team']),
   "email": zod.string(),
   "firstName": zod.string().optional(),
   "lastName": zod.string().optional(),
   "institution": zod.string().optional(),
   "role": zod.string().optional(),
   "country": zod.string().optional(),
+  "organizationType": zod.string().optional().describe('Free-text organization\/laboratory type, e.g. \"Medical laboratory\", \"Testing laboratory\", \"Research laboratory\", \"Multi-site network\"'),
+  "message": zod.string().optional().describe('Free-text context — waitlist detail (challenge, current system, number of locations, interest area) or a talk-to-team inquiry, prefixed with its inquiry category.'),
   "source": zod.string().describe('Where on the site this lead came from, e.g. \"homepage\", \"footer\"'),
   "consent": zod.boolean(),
   "utmSource": zod.string().optional(),

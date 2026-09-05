@@ -1,4 +1,4 @@
-export type LeadKind = 'newsletter' | 'demo_request';
+export type LeadKind = 'newsletter' | 'demo_request' | 'waitlist' | 'talk_to_team';
 
 export interface SubmitLeadInput {
   kind: LeadKind;
@@ -8,6 +8,10 @@ export interface SubmitLeadInput {
   institution?: string;
   role?: string;
   country?: string;
+  /** e.g. "Medical laboratory", "Multi-site network" — waitlist/talk-to-team only. */
+  organizationType?: string;
+  /** Free-text context: waitlist detail, or a talk-to-team inquiry (prefix with its category). */
+  message?: string;
   source: string; // where on the site this came from, e.g. "homepage-hero", "footer"
   consent: boolean;
   /** Honeypot passthrough — leave undefined for real users. */

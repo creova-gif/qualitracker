@@ -1,0 +1,23 @@
+/**
+ * The real QualiTracker brand mark (QT symbol), from the qualitracker-io
+ * Claude Design system (assets/logo-symbol-*.svg). Never redrawn — the two
+ * path shapes below are the exact vector data from the brand source, with
+ * the embedded C2PA provenance metadata stripped (cosmetic only, not part
+ * of the mark itself).
+ */
+export function QtSymbol({ color = 'currentColor', size = 32, className }: { color?: string; size?: number; className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 310.88 364.52"
+      width={size}
+      height={size}
+      fill={color}
+      className={className}
+      role="img"
+      aria-label="QualiTracker"
+    >
+      <path d="M105.66,67.31c-32.28,17.97-50.84,50.99-51.62,87.12-1.27,59.04,46.39,106.86,106.24,104.6l.24,53.79C67.41,316.66-4.41,239.8.21,148.81,4.56,63.16,74.94-1.77,161.15.04c75.44,1.58,139.55,56.59,148.69,133.86l-54.07.49c-6.79-31.64-27.69-56.96-53.92-69.84-31.67-15.56-66.11-13.98-96.19,2.76Z" />
+      <path d="M285.79,312.94l.22,51.59c-30.47-.44-56.91-14.24-76.21-36.53-20.32-23.46-26.28-52.51-25.99-83.31l.36-36.81-70.3.02.1-49.69h196.87s.05,49.67.05,49.67l-75.1.1.16,48.55c.1,28.45,20.87,52.24,49.84,56.42Z" />
+    </svg>
+  );
+}

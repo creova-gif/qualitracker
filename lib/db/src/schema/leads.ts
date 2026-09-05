@@ -16,9 +16,13 @@ export const leadsTable = pgTable("leads", {
   institution: text("institution"), // "company" for a lab context
   role: text("role"),
   country: text("country"),
+  organizationType: text("organization_type"), // e.g. "Medical laboratory", "Multi-site network"
+  message: text("message"), // free-text waitlist detail or talk-to-team inquiry
 
   // What kind of lead this is
-  kind: text("kind", { enum: ["newsletter", "demo_request"] }).notNull(),
+  kind: text("kind", {
+    enum: ["newsletter", "demo_request", "waitlist", "talk_to_team"],
+  }).notNull(),
 
   // Attribution — where the lead came from
   source: text("source").notNull(), // e.g. "homepage", "footer", "resource-article"

@@ -1,4 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=DM+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+/* Font families are loaded via a <link> in index.html, not @import here —
+   a CSS @import can't be discovered by the browser's preload scanner until
+   this stylesheet itself is parsed, which a real Lighthouse run measured
+   as ~800ms of avoidable render-blocking. See index.html for the link tag. */
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
@@ -45,40 +48,73 @@
   --radius-xl: calc(var(--radius) + 4px);
 }
 
+/*
+ * QualiTracker brand tokens — source: the qualitracker-io Claude Design
+ * system (docs/website/02_BRAND_SOURCE_OF_TRUTH.md and 07_DESIGN_SYSTEM.md).
+ * Deep Teal / Dark Navy / Quality Gold / Clinical White. Gold is a premium
+ * accent only — hero + pricing... no, hero + waitlist/talk-to-team CTAs —
+ * never a general button colour. Hairlines, not shadows. Colour-shift hover,
+ * never scale/translate.
+ */
 :root {
-  --background: 43 26% 94%;
-  --foreground: 169 36% 13%;
-  --border: 42 18% 80%;
-  --input: 42 18% 80%;
-  --ring: 171 44% 39%;
-  --card: 43 31% 97%;
-  --card-foreground: 169 36% 13%;
-  --card-border: 42 18% 80%;
-  --popover: 43 31% 97%;
-  --popover-foreground: 169 36% 13%;
-  --popover-border: 42 18% 80%;
-  --primary: 171 44% 29%;
-  --primary-foreground: 43 31% 97%;
-  --secondary: 38 35% 87%;
-  --secondary-foreground: 169 36% 13%;
-  --muted: 41 19% 88%;
-  --muted-foreground: 169 15% 37%;
-  --accent: 17 64% 53%;
-  --accent-foreground: 43 31% 97%;
-  --destructive: 2 56% 42%;
-  --destructive-foreground: 43 31% 97%;
-  --sidebar: 169 36% 13%;
-  --sidebar-foreground: 43 31% 97%;
-  --sidebar-border: 169 25% 25%;
-  --sidebar-primary: 171 44% 39%;
-  --sidebar-primary-foreground: 43 31% 97%;
-  --sidebar-accent: 169 27% 20%;
-  --sidebar-accent-foreground: 43 31% 97%;
-  --sidebar-ring: 171 44% 39%;
-  --app-font-sans: 'Plus Jakarta Sans', sans-serif;
-  --app-font-serif: 'Bricolage Grotesque', sans-serif;
-  --app-font-mono: 'DM Mono', monospace;
-  --radius: 0.75rem;
+  --qt-deep-teal: #025561;
+  --qt-teal-hover: #013D46;
+  --qt-teal-tint: #E6F4F1;
+  --qt-dark-navy: #1A3A4A;
+  --qt-quality-gold: #C9A84C;
+  --qt-gold-hover: #B89640;
+  --qt-gold-text: #9D833B; /* use when gold must render as text on white */
+  --qt-clinical-white: #FFFFFF;
+  --qt-mint-light: #E6F4F1;
+  --qt-lab-grey: #F4F6F7;
+  --qt-body-grey: #666666;
+  --qt-near-black: #1C2833;
+  --qt-border-grey: #E0E0E0;
+  --qt-light-teal: #5FBFC1;
+
+  --qt-success: #28A745;
+  --qt-warning: #FFC107;
+  --qt-error: #DC3545;
+
+  --viz-1: #025561;
+  --viz-2: #C9A84C;
+  --viz-3: #5FBFC1;
+  --viz-4: #DC3545;
+  --viz-grid: #E8E8E8;
+
+  --background: 0 0% 100%;
+  --foreground: 202 27% 12%;
+  --border: 0 0% 88%;
+  --input: 0 0% 88%;
+  --ring: 190 99% 18%;
+  --card: 0 0% 100%;
+  --card-foreground: 202 27% 12%;
+  --card-border: 0 0% 91%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 202 27% 12%;
+  --popover-border: 0 0% 88%;
+  --primary: 190 99% 18%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 168 39% 92%;
+  --secondary-foreground: 190 99% 18%;
+  --muted: 190 12% 96%;
+  --muted-foreground: 0 0% 40%;
+  --accent: 42 47% 55%;
+  --accent-foreground: 202 40% 20%;
+  --destructive: 355 74% 53%;
+  --destructive-foreground: 0 0% 100%;
+  --sidebar: 202 40% 20%;
+  --sidebar-foreground: 0 0% 100%;
+  --sidebar-border: 202 30% 28%;
+  --sidebar-primary: 178 48% 60%;
+  --sidebar-primary-foreground: 202 40% 12%;
+  --sidebar-accent: 202 33% 25%;
+  --sidebar-accent-foreground: 0 0% 100%;
+  --sidebar-ring: 178 48% 60%;
+  --app-font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --app-font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
+  --app-font-mono: 'Roboto Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --radius: 0.5rem;
   --primary-border: hsl(var(--primary));
   --secondary-border: hsl(var(--secondary));
   --muted-border: hsl(var(--muted));
@@ -89,35 +125,35 @@
 }
 
 .dark {
-  --background: 169 36% 13%;
-  --foreground: 43 31% 97%;
-  --border: 169 25% 25%;
-  --input: 169 25% 25%;
-  --ring: 171 44% 51%;
-  --card: 169 30% 17%;
-  --card-foreground: 43 31% 97%;
-  --card-border: 169 25% 25%;
-  --popover: 169 30% 17%;
-  --popover-foreground: 43 31% 97%;
-  --popover-border: 169 25% 25%;
-  --primary: 171 44% 51%;
-  --primary-foreground: 169 36% 13%;
-  --secondary: 169 27% 20%;
-  --secondary-foreground: 43 31% 97%;
-  --muted: 169 24% 22%;
-  --muted-foreground: 41 17% 73%;
-  --accent: 17 64% 58%;
-  --accent-foreground: 43 31% 97%;
-  --destructive: 2 56% 55%;
-  --destructive-foreground: 43 31% 97%;
-  --sidebar: 169 42% 9%;
-  --sidebar-foreground: 43 31% 97%;
-  --sidebar-border: 169 25% 20%;
-  --sidebar-primary: 171 44% 51%;
-  --sidebar-primary-foreground: 169 36% 13%;
-  --sidebar-accent: 169 27% 15%;
-  --sidebar-accent-foreground: 43 31% 97%;
-  --sidebar-ring: 171 44% 51%;
+  --background: 202 40% 20%;
+  --foreground: 0 0% 100%;
+  --border: 0 0% 40%;
+  --input: 0 0% 40%;
+  --ring: 178 48% 60%;
+  --card: 202 33% 15%;
+  --card-foreground: 0 0% 100%;
+  --card-border: 202 30% 24%;
+  --popover: 202 33% 15%;
+  --popover-foreground: 0 0% 100%;
+  --popover-border: 202 30% 24%;
+  --primary: 178 48% 60%;
+  --primary-foreground: 202 40% 12%;
+  --secondary: 202 33% 25%;
+  --secondary-foreground: 0 0% 100%;
+  --muted: 202 27% 18%;
+  --muted-foreground: 0 0% 64%;
+  --accent: 39 51% 71%;
+  --accent-foreground: 202 40% 12%;
+  --destructive: 355 74% 62%;
+  --destructive-foreground: 0 0% 100%;
+  --sidebar: 202 42% 9%;
+  --sidebar-foreground: 0 0% 100%;
+  --sidebar-border: 202 30% 20%;
+  --sidebar-primary: 178 48% 60%;
+  --sidebar-primary-foreground: 202 40% 12%;
+  --sidebar-accent: 202 27% 15%;
+  --sidebar-accent-foreground: 0 0% 100%;
+  --sidebar-ring: 178 48% 60%;
   --primary-border: hsl(var(--primary));
   --secondary-border: hsl(var(--secondary));
   --muted-border: hsl(var(--muted));
@@ -131,41 +167,118 @@
   * { @apply border-border; }
   html { scroll-behavior: smooth; }
   body { @apply font-sans antialiased bg-background text-foreground; margin: 0; }
-  ::selection { background: hsl(var(--accent)); color: hsl(var(--accent-foreground)); }
+  ::selection { background: hsl(var(--accent) / .35); color: var(--qt-near-black); }
 }
 
 @layer utilities {
   .font-display { font-family: var(--app-font-serif); }
+  .font-brand { font-family: 'Poppins', -apple-system, sans-serif; }
   .font-mono-ui { font-family: var(--app-font-mono); }
   .text-balance { text-wrap: balance; }
 }
 
 .qt-site {
   min-height: 100dvh;
-  overflow: hidden;
-  background: hsl(var(--background));
+  background: var(--qt-clinical-white);
 }
 
-.qt-grid {
-  background-image: linear-gradient(hsl(169 36% 13% / 0.055) 1px, transparent 1px), linear-gradient(90deg, hsl(169 36% 13% / 0.055) 1px, transparent 1px);
-  background-size: 32px 32px;
+/* The brand's signature type move: eyebrow label + gold rule under a title.
+   Mono, not Inter — this is the technical-eyebrow layer (see the technical
+   typography block below); a stray duplicate declaration used to silently
+   override this back to Inter. */
+.qt-eyebrow {
+  font-family: var(--app-font-mono);
+  font-weight: 700;
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--qt-deep-teal);
+}
+.qt-eyebrow-light { color: var(--qt-quality-gold); }
+.qt-rule-gold { width: 100px; height: 4px; background: var(--qt-quality-gold); margin: 12px 0 28px; }
+
+/*
+ * Technical typography layer — the third, deliberate layer of the type
+ * system (display/serif for editorial moments, sans for product UI, mono
+ * for structured/technical information: IDs, statuses, confidence,
+ * timestamps, standard clauses, trace paths). Font is Roboto Mono, already
+ * the brand kit's designated "technical surfaces only" typeface — no new
+ * font was introduced. Used deliberately, not as general body text.
+ */
+.qt-technical-eyebrow {
+  font-family: var(--app-font-mono);
+  font-weight: 700;
+  font-size: 10px;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--qt-deep-teal);
+}
+.qt-technical-label {
+  font-family: var(--app-font-mono);
+  font-weight: 500;
+  font-size: 10px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--qt-body-grey);
+}
+.qt-technical-value {
+  font-family: var(--app-font-mono);
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--qt-near-black);
+}
+.qt-technical-timestamp {
+  font-family: var(--app-font-mono);
+  font-size: 11px;
+  color: var(--qt-body-grey);
+}
+/* An identifier/command/path — SOP-014, ISO 15189 §8.7, CAPA-0082. Never
+   used for invented metrics; see docs/website/20_TECHNICAL_UI_LANGUAGE.md. */
+.qt-technical-id {
+  font-family: var(--app-font-mono);
+  font-weight: 700;
+  font-size: 12px;
+  color: var(--qt-deep-teal);
 }
 
-.qt-dark-grid {
-  background-color: hsl(169 36% 13%);
-  background-image: linear-gradient(hsl(43 31% 97% / 0.055) 1px, transparent 1px), linear-gradient(90deg, hsl(43 31% 97% / 0.055) 1px, transparent 1px);
-  background-size: 32px 32px;
+/* Status dot — colour is never the only signal; always paired with a text
+   label (accessibility requirement carried over from the accreditation
+   widget's non-colour indicator). */
+.qt-status-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  flex-shrink: 0;
 }
+.qt-status-dot--live { background: var(--qt-deep-teal); }
+.qt-status-dot--verified { background: var(--qt-deep-teal); }
+.qt-status-dot--development { background: var(--qt-quality-gold); }
+.qt-status-dot--planned { background: transparent; box-shadow: inset 0 0 0 1.5px var(--qt-body-grey); }
 
-.qt-noise::after {
-  content: "";
-  position: fixed;
-  pointer-events: none;
-  z-index: 50;
-  inset: 0;
-  opacity: .035;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.28'/%3E%3C/svg%3E");
+/* Restrained arrow-nudge micro-interaction for directional links — position
+   only (translateX), never scale, matching the brand's motion ceiling. */
+.qt-arrow-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
+.qt-arrow-link svg { transition: transform .2s cubic-bezier(.2,0,.2,1); }
+.qt-arrow-link:hover svg, .qt-arrow-link:focus-visible svg { transform: translateX(3px); }
+
+/* Hairline cards — never a drop shadow at rest. Real shadows only for
+   floating elements (toast/dropdown/modal), defined separately below. */
+.qt-card {
+  background: var(--qt-clinical-white);
+  border-radius: 8px;
+  box-shadow: inset 0 0 0 1px var(--qt-border-grey);
+}
+.qt-card-dark {
+  background: var(--qt-dark-navy);
+  color: var(--qt-clinical-white);
+  border-radius: 8px;
+}
+.qt-shadow-overlay { box-shadow: 0 12px 32px rgba(28, 40, 51, .18); }
 
 .qt-reveal { animation: qt-reveal .7s cubic-bezier(.22, 1, .36, 1) both; }
 .qt-reveal-delay-1 { animation-delay: .12s; }
@@ -173,16 +286,20 @@
 .qt-reveal-delay-3 { animation-delay: .34s; }
 @keyframes qt-reveal { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
 
-.qt-rule { height: 1px; background: hsl(var(--foreground) / .15); }
-.qt-dashed-rule { border-top: 1px dashed hsl(var(--foreground) / .22); }
-.qt-focus:focus-visible, button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid hsl(var(--accent) / .6); outline-offset: 3px; }
+/* QualiBOT's one specified animation: a pulsing light-teal ring. */
+@keyframes qt-thinking-ring {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(95, 191, 193, .55); }
+  50% { box-shadow: 0 0 0 4px rgba(95, 191, 193, 0); }
+}
+.qt-thinking { animation: qt-thinking-ring 1.6s ease-in-out infinite; }
 
-.qt-button { transition: transform .2s ease, background-color .2s ease, color .2s ease, border-color .2s ease; }
-.qt-button:hover { transform: translateY(-2px); }
-.qt-button:active { transform: translateY(0); }
+.qt-dashed-rule { border-top: 1px dashed var(--qt-border-grey); }
+.qt-focus:focus-visible, button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: 2px solid var(--qt-deep-teal); outline-offset: 2px;
+}
 
-.qt-display-mark { letter-spacing: -.07em; line-height: .9; }
-.qt-vertical-label { writing-mode: vertical-rl; transform: rotate(180deg); }
+/* Colour-shift only. No scale, no translate — the brand kit's motion ceiling. */
+.qt-button { transition: background-color .18s cubic-bezier(.2,0,.2,1), color .18s cubic-bezier(.2,0,.2,1), border-color .18s cubic-bezier(.2,0,.2,1); }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

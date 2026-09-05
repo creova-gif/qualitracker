@@ -4,6 +4,7 @@ import tailwindcss from '@tailwindcss/vite';
 import { defineConfig } from 'vite';
 
 import runtimeErrorOverlay from '@replit/vite-plugin-runtime-error-modal';
+import { visualizer } from 'rollup-plugin-visualizer';
 
 const rawPort = process.env.PORT || '5000';
 const port = Number(rawPort);
@@ -20,6 +21,16 @@ export default defineConfig({
     react(),
     tailwindcss(),
     runtimeErrorOverlay(),
+    ...(process.env.ANALYZE === 'true'
+      ? [
+          visualizer({
+            filename: path.resolve(import.meta.dirname, 'dist/bundle-analysis.html'),
+            gzipSize: true,
+            brotliSize: true,
+            template: 'treemap',
+          }),
+        ]
+      : []),
     ...(process.env.NODE_ENV !== 'production' &&
     process.env.REPL_ID !== undefined
       ? [

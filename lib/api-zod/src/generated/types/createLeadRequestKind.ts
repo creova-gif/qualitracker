@@ -12,4 +12,6 @@ export type CreateLeadRequestKind = typeof CreateLeadRequestKind[keyof typeof Cr
 export const CreateLeadRequestKind = {
   newsletter: 'newsletter',
   demo_request: 'demo_request',
+  waitlist: 'waitlist',
+  talk_to_team: 'talk_to_team',
 } as const;
