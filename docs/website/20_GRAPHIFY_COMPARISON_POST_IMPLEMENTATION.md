@@ -1,0 +1,74 @@
+# Graphify Comparison — Post-Implementation Audit
+
+Fresh browse of `graphify.com` (current, live) against the current built state of `qualitracker-website` after Waves 1–6 (brand rebuild, homepage expansion, technical UI language, hero/button/tab work, the Quality Intelligence Graph upgrade, and the centering fix). Supersedes `03_GRAPHIFY_EXPERIENCE_ANALYSIS.md` and `11_REFERENCE_ANALYSIS_GRAPHIFY_ADDENDUM.md` as the current read — those were written before most of the implementation existed.
+
+Scored honestly, per standing instruction: a 7/10 is written as a 7/10, with what's missing named plainly.
+
+## The one distinction that matters most
+
+Graphify's credibility apparatus and QualiTracker's are not the same *kind* of thing, and no amount of design work closes that gap — only time and real usage can:
+
+| | Graphify | QualiTracker |
+|---|---|---|
+| Usage proof | 115,039 real GitHub stars, live-updating ("4,961 to go → 120,000"), 6.3M+ PyPI downloads | None exist yet — pre-launch |
+| Testimonials | Real named people at real companies (Rootly AI Labs, MemVerge), each linked to public proof | None — would be fabrication to invent one |
+| Press coverage | 26 real linked articles/videos across named publications, all earned, unprompted | None — pre-launch, no press yet |
+| Release history | Real dated semantic versions (`v0.9.54`, Sep 5 2026) shown as "Recently Shipped" | Checked (Wave 3): 2 real tags + 8 real commits exist, but they're ops-flavored, not customer-facing features — publishing them as "Recently Shipped" would be editorializing, not reporting |
+| Benchmark claim | A real, citable SWE-bench-style number | None exists to cite |
+
+This is a maturity gap, not a creativity gap. Every one of these devices is *exactly* what QualiTracker's own no-fabrication rule would block if attempted early. The honest move — already made across this project — is to omit them, not counterfeit them.
+
+## Where the comparison is actually apples-to-apples
+
+### 1. Typography and hero
+**Graphify:** Centered hero (not left-aligned, correcting an earlier assumption in `03_...md`), large bold sans headline with one color-highlighted word ("reason **over**"), a `GRAPH MEMORY · GROUNDED ANSWERS` eyebrow with colored status dots, a persistent top announcement bar (`New · v0.9.54 is out →`).
+**QualiTracker:** Left-aligned hero, now `clamp(3.5rem,9vw,8rem)` (Wave 4 — was `clamp(3rem,7vw,6rem)`), genuinely commands the viewport at desktop width. No announcement bar (nothing shippable to announce yet — see release-history finding above).
+**Score: 8/10.** The type scale now competes. The gap left is structural (announcement bar, a highlighted-word device in the headline) more than scale.
+
+### 2. Background treatment
+**Graphify:** A deliberately subtle textured background — faint mathematical symbols (∂, √, ±) scattered on a dark forest-green field, plus a real cream/off-white section further down.
+**QualiTracker:** Flat colour fields only, hairline borders, zero texture — this is a direct requirement from the real brand kit (`07_DESIGN_SYSTEM.md`), not an oversight.
+**Score: intentionally not competing.** Matching this would mean breaking brand for a surface effect. Left as-is on purpose (documented in Wave 4).
+
+### 3. Technical/monospace language
+**Graphify:** Tags its *own marketing claims* with `[EXTRACTED]` / `[INFERRED]` — the same confidence vocabulary its product uses internally, applied to the stats row, the adopter logos, the testimonial. This is the single most sophisticated device on their site: the marketing page dogfoods the product's own epistemics.
+**QualiTracker:** Built an equivalent vocabulary (Waves 3–5: `RETRIEVAL / ABOVE THRESHOLD`, `TRACE / AUDIT → FINDING → CAPA`, `STATUS / IN DEVELOPMENT`) and applied it to the QualiBOT demo, the traceability path, and the Quality Intelligence Graph's `ExplorerFrame`.
+**Score: 8/10.** The mechanism is equally real and equally rigorous. What Graphify has that we don't: applying the tag to *marketing stats themselves* (their GitHub star count literally says how it knows). We have no equivalent stats to tag yet — not a design gap, a content gap (see above).
+
+### 4. Interactive visualization
+**Graphify:** A real, live, clickable graph of an actual open-source repo (FastAPI) — genuine data, community-detection coloring, a "god node" legend, click-to-inspect.
+**QualiTracker:** The Quality Intelligence Graph (Wave 6) — curved directional edges with real arrowheads, icon-badge nodes, an active-node halo, and an animated flow-pulse along real outgoing edges — but it visualizes the *product's own conceptual schema*, not live customer data (correctly so: this is B2B lab software, the live version of this graph is private customer data behind a login, not something to expose on a marketing site).
+**Score: 7/10.** Meaningfully upgraded this wave and no longer a static diagram, but Graphify's version demonstrates the tool on *real, external, verifiable data* — ours necessarily can't, and this is close to a ceiling on the honest side of the line, not a gap to keep closing by adding more animation.
+
+### 5. Comparison table device
+**Graphify:** "Graph vs. Vector DB/RAG vs. Grep," five real rows, no fabricated categories.
+**QualiTracker:** No equivalent exists yet. A real, honest one is buildable — e.g. "QualiTracker vs. shared drive vs. generic enterprise QMS" across Traceability / Standards-alignment / AI grounding / Cost-to-start — using only claims already established elsewhere on the site.
+**Score: 0/10 — genuine, closeable gap.** Not started. Recommend for the next wave.
+
+### 6. Buttons, tabs, micro-interactions
+**Graphify:** Compact pill "Get started," bordered secondary actions, a live floating "Ask Graphify" chat launcher (a *real* deployed assistant on the marketing site itself, not a scripted demo).
+**QualiTracker:** Button `arrow` prop (Wave 4) applied to 3 genuinely exploratory links; `SegmentedControl` replacing ad-hoc pill toggles.
+**Score: 7/10.** Button-level polish is comparable. The floating live-chat widget is a real capability gap, not a styling one — QualiBOT isn't deployed on the marketing site itself (would need real infrastructure, not a design pass).
+
+### 7. Accuracy / accessibility / performance (verifiable, not aesthetic)
+**QualiTracker (Lighthouse, production build, just re-run):** Home 95/100/100/100, `/product` 95/100/100/100 (performance/accessibility/best-practices/SEO). Graphify wasn't independently re-audited here (it's not our build to Lighthouse-test meaningfully against our own performance rules), but nothing on it suggested equivalent rigor was applied *and disclosed* — QualiTracker's own audits are all in this docs folder, dated, with every regression named rather than hidden (e.g. Wave 2's 92→87, Wave 4's 96→90).
+**Score: this is a real point of pride, not a gap.**
+
+## Score summary
+
+| Dimension | Score | Gap type |
+|---|---|---|
+| Hero typography | 8/10 | Mostly closed |
+| Background/texture | N/A | Deliberately not pursued (brand constraint) |
+| Technical/confidence language | 8/10 | Mechanism equal; content (real stats) doesn't exist yet |
+| Interactive visualization | 7/10 | Near ceiling given real-data constraint |
+| Comparison table | 0/10 | **Open, closeable — recommended next** |
+| Buttons/tabs | 7/10 | Live-chat widget is infra, not design |
+| Usage proof / testimonials / press / releases | N/A | Maturity gap — closes with time, not effort |
+| A11y / performance rigor | Ahead, disclosed | Not a gap |
+
+## Recommended next, if continuing
+
+1. **A real comparison table** (QualiTracker vs. shared-drive vs. generic QMS) — the one concretely open, zero-fabrication-risk gap left on this list.
+2. **A lightweight announcement-bar pattern**, held in reserve until there's a real "shipped" thing to announce (ties to the still-blocked changelog decision from Wave 3/5).
+3. Everything else on this list is either already competitive or correctly not being chased because chasing it would mean fabricating.
