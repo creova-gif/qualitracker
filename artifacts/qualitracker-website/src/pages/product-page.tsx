@@ -90,7 +90,7 @@ function ProductPage() {
       <section id="ai-rag" className="py-20 lg:py-24" style={{ background: 'var(--qt-lab-grey)' }}>
         <div className="mx-auto max-w-[1280px] px-5 lg:px-8">
           <SectionHeader eyebrow="AI & RAG" title="QualiBOT: grounded, cited, honest when it doesn't know." />
-          <div className="mt-10 max-w-[560px]">
+          <div className="mt-10 mx-auto max-w-[560px]">
             <AskQualiTrackerDemo />
           </div>
         </div>
