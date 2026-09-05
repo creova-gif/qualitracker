@@ -92,7 +92,7 @@ function LandingPage() {
   return (
     <PageShell>
       {/* Hero */}
-      <section className="relative overflow-hidden pb-16 pt-16 lg:pt-20" style={{ background: 'var(--qt-dark-navy)' }}>
+      <section className="relative overflow-hidden pb-16 pt-16 lg:pt-20 qt-texture-grid" style={{ backgroundColor: 'var(--qt-dark-navy)' }}>
         <div className="mx-auto max-w-[1280px] px-5 lg:px-8">
           {/* The headline gets its own full-width row so it can command the
               viewport the way the brand kit's upper type range calls for —
@@ -279,7 +279,7 @@ function LandingPage() {
       <AccreditationVisionSection />
 
       {/* Final CTA */}
-      <section className="py-20 lg:py-24" style={{ background: 'var(--qt-dark-navy)' }}>
+      <section className="py-20 lg:py-24 qt-texture-grid" style={{ backgroundColor: 'var(--qt-dark-navy)' }}>
         <Reveal className="mx-auto max-w-[1280px] px-5 text-center lg:px-8">
           <SectionHeader align="center" light eyebrow="Start the conversation" title="Let's make quality easier to see." />
           <p className="mx-auto mt-5 max-w-[440px] text-sm leading-6" style={{ color: 'var(--qt-mint-light)' }}>

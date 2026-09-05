@@ -56,7 +56,7 @@ function WaitlistPage() {
 
   return (
     <PageShell>
-      <section className="py-16 lg:py-20" style={{ background: 'var(--qt-dark-navy)' }}>
+      <section className="py-16 lg:py-20 qt-texture-grid" style={{ backgroundColor: 'var(--qt-dark-navy)' }}>
         <div className="mx-auto max-w-[1280px] px-5 lg:px-8">
           <p className="qt-eyebrow qt-eyebrow-light">Early access</p>
           <h1 className="font-brand mt-3 max-w-[560px] text-[clamp(2rem,4vw,2.8rem)] font-bold leading-[1.1] tracking-[-.02em]" style={{ color: '#FFFFFF' }}>

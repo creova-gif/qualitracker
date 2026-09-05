@@ -41,7 +41,7 @@ function SecurityPage() {
   useDocumentMeta('Security — QualiTracker', "How QualiTracker isolates lab data, redacts PII, and hosts its own AI inference.");
   return (
     <PageShell>
-      <section className="py-16 lg:py-20" style={{ background: 'var(--qt-dark-navy)' }}>
+      <section className="py-16 lg:py-20 qt-texture-grid" style={{ backgroundColor: 'var(--qt-dark-navy)' }}>
         <div className="mx-auto max-w-[1280px] px-5 lg:px-8">
           <p className="qt-eyebrow qt-eyebrow-light">Security</p>
           <h1 className="font-brand mt-3 max-w-[640px] text-[clamp(2.25rem,5vw,3.75rem)] font-bold leading-[1.08] tracking-[-.02em]" style={{ color: '#FFFFFF' }}>

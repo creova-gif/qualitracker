@@ -294,6 +294,25 @@
 .qt-thinking { animation: qt-thinking-ring 1.6s ease-in-out infinite; }
 
 .qt-dashed-rule { border-top: 1px dashed var(--qt-border-grey); }
+
+/*
+ * Background texture — a deliberate, explicit exception to the brand kit's
+ * flat-colour-fields rule (07_DESIGN_SYSTEM.md), added at the user's
+ * request after the Graphify comparison audit flagged the flat sections as
+ * a real point of difference. Not a copy of Graphify's own texture
+ * (scattered mathematical symbols) — a dot-grid instead, tying to
+ * QualiTracker's own visual identity (the Quality Intelligence Graph is
+ * fundamentally dots-and-edges) rather than borrowing theirs. Applied only
+ * to dark-navy sections; pure CSS, no image request, no bytes to load.
+ */
+.qt-texture-grid {
+  /* A tiled 28x28 SVG tile, not a computed radial-gradient — a real
+     Lighthouse run found the gradient function expensive to rasterize
+     across a full-width hero (FCP 2.1s -> 3.1s). A small bitmap tile is
+     far cheaper for the browser to composite/repeat. */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28'%3E%3Ccircle cx='1' cy='1' r='1' fill='white' fill-opacity='.5'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+}
 .qt-focus:focus-visible, button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
   outline: 2px solid var(--qt-deep-teal); outline-offset: 2px;
 }

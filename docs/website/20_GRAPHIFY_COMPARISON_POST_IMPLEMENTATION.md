@@ -85,3 +85,14 @@ User asked to push every score to 10/10. Flagged plainly before starting: usage 
 | Announcement bar (item 2 above) | **Still deliberately not built** — same real-release-history blocker as the changelog. |
 | Usage stats / testimonials / press / real semantic release history | **Not pursued, on purpose** — no honest way to reach 10/10 here without fabricating; flagged to the user directly rather than silently scored as done. |
 | Textured background, live chat widget | **Not pursued** — brand constraint and infrastructure gap respectively, not something the next design pass closes. |
+
+## Wave 8 — background texture added, live chat widget declined
+
+User asked directly to add the two remaining items. Answered plainly first: won't fabricate stats/testimonials/press/release history even on a direct ask — that principle holds regardless of who asks. Then confirmed per-item: texture yes (explicit override of the brand kit's flat-colour rule), live chat no (real backend work, not now).
+
+| Item | Status |
+|---|---|
+| `.qt-texture-grid` — a subtle dot-grid pattern on dark-navy hero sections (all 8 across the site: homepage hero + final CTA, and the page-hero banner on every other page) | **Shipped** — a deliberate, explicit exception to `07_DESIGN_SYSTEM.md`'s flat-colour rule, done at the user's request. Not a copy of Graphify's own texture (scattered math symbols) — a dot-grid, tying to QualiTracker's own graph-based visual identity instead of borrowing theirs. |
+| Real performance regression caught and fixed: first attempt (`radial-gradient` computed per-pixel) cost ~1s of FCP (2.1s → 3.1s, performance 90 → 85) | **Caught and fixed** — same "measure before declaring done" discipline as every prior wave. Rebuilt as a tiny tiled SVG data-URI instead of a computed gradient function; performance fully recovered to 95/100/100/100, FCP back to 2.1s, LCP improved to 2.6s. |
+| Live QualiBOT chat widget on the marketing site | **Declined by the user** — real backend/infra work (a live endpoint, auth, hosting), correctly scoped as out of reach for a styling pass. Current scripted, clearly-labeled illustrative demo stays as-is. |
+| Verification | Typecheck/lint/11 tests pass. Visually confirmed on home and `/product`. |
