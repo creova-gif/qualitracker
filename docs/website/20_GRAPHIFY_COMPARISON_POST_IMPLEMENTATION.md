@@ -116,3 +116,11 @@ Rebuilt `.qt-texture-grid` around the real brand mark — the same two path shap
 **Caught a second, different real bug this time**: the fixed 200x120px tile looked right at desktop width (1440px, verified via screenshot) but was badly oversized on an actual 375px mobile viewport — the marks landed directly behind headline letters instead of sitting as background texture. A fixed-pixel `background-size` doesn't scale down for narrow screens on its own. Fixed with a `@media (max-width: 640px)` override halving the tile size. Verified at both 1440px and a genuine 375px mobile emulation (not just this pane's own narrower default viewport, which turned out to be a third, in-between size worth not mistaking for either desktop or real mobile).
 
 Lighthouse held at 90/100/100/100 (same noise band). Typecheck/lint/11 tests pass.
+
+## Wave 11 — the real "uncentered on laptop, fine on mobile" bug
+
+User reported the homepage looked uncentered specifically on a laptop browser, but perfect on mobile — a real, specific symptom, not a vague complaint. Re-audited: every section's actual content container measured perfectly centered at 1440px (72.5px both sides, checked programmatically across all 12 homepage sections). The uncentered thing wasn't the content — it was the **texture**.
+
+`background-image` tiling defaults to starting at an element's top-left corner. Since no section's width is an exact multiple of the 200px tile, the pattern always started with a complete brand mark flush at the left edge and ended with an inconsistent partial mark cropped at the right — asymmetric by construction. On a wide laptop viewport with many tiles visible, that one-sided cropping is obvious; on a narrow phone viewport with only 2-3 tiles, it's barely perceptible — which is exactly the laptop/mobile split reported.
+
+Fixed with `background-position: center`, so any partial-tile cropping happens symmetrically on both edges instead of only the right. Verified visually at 1440px on all 8 dark-navy sections across every page (home, product, company, solutions, security, waitlist) — texture now reads as balanced left-to-right everywhere. Typecheck/lint/11 tests pass.
