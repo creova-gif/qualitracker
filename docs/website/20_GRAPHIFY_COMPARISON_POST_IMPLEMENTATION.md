@@ -106,3 +106,13 @@ Replaced the plain dot-grid with a small graph micro-pattern tile (5 nodes of tw
 **First attempt overshot badly**: initial opacities (0.5/0.55 fill, 0.22 stroke) looked fine as an isolated tile preview but, once repeated across a full hero, the connecting lines created a strong, distracting diagonal network pattern that nearly obscured the headline entirely — caught by an actual screenshot, not assumed correct from the code. Cut opacity roughly 5-6x (0.09/0.10 fill, 0.05 stroke) and re-verified: the pattern reads on close inspection but sits genuinely behind the text at normal viewing distance. Lesson for next time: a tileable pattern's opacity has to be judged at full-page scale, not as a single isolated tile.
 
 Performance held in the same 90-95 noise band as before (not a new regression — same tile complexity, only opacity values changed). Accessibility/Best Practices/SEO held at 100.
+
+## Wave 10 — texture rebuilt around the real brand mark
+
+User flagged the graph micro-pattern as "wrong look/style" and asked directly whether the texture could relate to the actual venture instead — correct call: an abstract dot-and-line pattern is a generic connected-tech-startup cliché, not something that reads as *QualiTracker* to anyone unfamiliar with the internal graph metaphor.
+
+Rebuilt `.qt-texture-grid` around the real brand mark — the same two path shapes as `QtSymbol` (`src/assets/qt-symbol.tsx`), never redrawn, scattered at two offset positions per tile so the repeat doesn't read as a rigid grid.
+
+**Caught a second, different real bug this time**: the fixed 200x120px tile looked right at desktop width (1440px, verified via screenshot) but was badly oversized on an actual 375px mobile viewport — the marks landed directly behind headline letters instead of sitting as background texture. A fixed-pixel `background-size` doesn't scale down for narrow screens on its own. Fixed with a `@media (max-width: 640px)` override halving the tile size. Verified at both 1440px and a genuine 375px mobile emulation (not just this pane's own narrower default viewport, which turned out to be a third, in-between size worth not mistaking for either desktop or real mobile).
+
+Lighthouse held at 90/100/100/100 (same noise band). Typecheck/lint/11 tests pass.
