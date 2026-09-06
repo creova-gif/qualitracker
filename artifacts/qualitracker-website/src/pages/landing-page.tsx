@@ -11,7 +11,8 @@ import { QualityCommandCenter } from '@/components/product/quality-command-cente
 import { QualityIntelligenceGraph } from '@/components/product/quality-intelligence-graph';
 import { LifecycleTimeline } from '@/components/product/lifecycle-timeline';
 import { ComparisonTable } from '@/components/site/comparison-table';
-import { useDocumentMeta } from '@/lib/use-document-meta';
+import { useDocumentMeta, useStructuredData } from '@/lib/use-document-meta';
+import { SOFTWARE_APPLICATION_SCHEMA } from '@/lib/structured-data';
 import { Reveal } from '@/components/site/reveal';
 import { motion, useReducedMotion } from 'framer-motion';
 
@@ -88,7 +89,9 @@ function LandingPage() {
   useDocumentMeta(
     'QualiTracker — Quality that works for every lab',
     "QualiTracker is a digital quality-management system for laboratories, with an AI assistant grounded in your lab's own documents.",
+    '/',
   );
+  useStructuredData(SOFTWARE_APPLICATION_SCHEMA);
   return (
     <PageShell>
       {/* Hero */}

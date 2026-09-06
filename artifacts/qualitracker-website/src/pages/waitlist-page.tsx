@@ -6,7 +6,7 @@ import { HONEYPOT_FIELD_NAME, submitLead } from '@/lib/leads';
 import { useDocumentMeta } from '@/lib/use-document-meta';
 
 function WaitlistPage() {
-  useDocumentMeta('Join the waitlist — QualiTracker', 'Join the QualiTracker early-access waitlist for laboratories.');
+  useDocumentMeta('Join the waitlist — QualiTracker', 'Join the QualiTracker early-access waitlist for laboratories.', '/waitlist');
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);

@@ -2,7 +2,7 @@ import { PageShell } from '@/components/site/page-shell';
 import { SectionHeader } from '@/components/site/section-header';
 import { Button } from '@/components/site/button';
 import { AccreditationVisionSection } from '@/components/site/accreditation-vision';
-import { useDocumentMeta } from '@/lib/use-document-meta';
+import { useDocumentMeta, useStructuredData } from '@/lib/use-document-meta';
 
 const MISSION = { eyebrow: 'Mission', title: 'Replace the binder.', copy: 'Empower every medical laboratory in East Africa with affordable, intelligent, standards-aligned quality-management tools.' };
 const SECONDARY_PILLARS = [
@@ -24,11 +24,23 @@ const TEAM = [
   { initials: 'NG', name: 'Nickson Gabriel', role: 'Chief Strategy Officer' },
 ];
 
+// Built directly from TEAM above — never a separate, hand-maintained list
+// that could drift from the real roster shown on the page.
+const ORGANIZATION_SCHEMA = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Qualitracker Limited',
+  url: 'https://qualitracker.co/company',
+  founder: TEAM.map((person) => ({ '@type': 'Person', name: person.name, jobTitle: person.role })),
+};
+
 function CompanyPage() {
   useDocumentMeta(
     'Company — QualiTracker',
     'Qualitracker Limited is building digital quality infrastructure for laboratories, built in East Africa for East Africa.',
+    '/company',
   );
+  useStructuredData(ORGANIZATION_SCHEMA);
   return (
     <PageShell>
       <section className="py-16 lg:py-20 qt-texture-grid" style={{ backgroundColor: 'var(--qt-dark-navy)' }}>

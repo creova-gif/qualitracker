@@ -149,3 +149,7 @@ overrides:
 
 allowBuilds:
   esbuild: true
+  # puppeteer's install script only downloads its bundled Chromium binary
+  # from Google's own CDN — no arbitrary third-party code execution beyond
+  # that. Needed to build-time prerender the website's static routes.
+  puppeteer: true

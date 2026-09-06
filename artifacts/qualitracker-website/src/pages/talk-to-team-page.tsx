@@ -15,7 +15,7 @@ const CATEGORIES = [
 ];
 
 function TalkToTeamPage() {
-  useDocumentMeta('Talk to the team — QualiTracker', 'Reach the QualiTracker team for institutional, regulatory, or partnership inquiries.');
+  useDocumentMeta('Talk to the team — QualiTracker', 'Reach the QualiTracker team for institutional, regulatory, or partnership inquiries.', '/talk-to-team');
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);

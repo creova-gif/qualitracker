@@ -114,7 +114,7 @@ function ComingSoon({ label, group }: { label: string; group: string }) {
 }
 
 function DocsPage() {
-  useDocumentMeta('Docs — QualiTracker', 'QualiTracker documentation: platform overview, QMS modules, AI & RAG, integrations, and MCP.');
+  useDocumentMeta('Docs — QualiTracker', 'QualiTracker documentation: platform overview, QMS modules, AI & RAG, integrations, and MCP.', '/docs');
   const [active, setActive] = useState('introduction');
   const activeItem = ALL_ITEMS.find((i) => i.id === active);
 

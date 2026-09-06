@@ -38,7 +38,7 @@ const PRACTICES = [
 ];
 
 function SecurityPage() {
-  useDocumentMeta('Security — QualiTracker', "How QualiTracker isolates lab data, redacts PII, and hosts its own AI inference.");
+  useDocumentMeta('Security — QualiTracker', "How QualiTracker isolates lab data, redacts PII, and hosts its own AI inference.", '/security');
   return (
     <PageShell>
       <section className="py-16 lg:py-20 qt-texture-grid" style={{ backgroundColor: 'var(--qt-dark-navy)' }}>

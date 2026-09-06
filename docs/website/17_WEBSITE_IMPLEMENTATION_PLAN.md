@@ -14,7 +14,7 @@ Synthesized from `10_WEBSITE_AUDIT.md`, `12_SKILL_GAP_ANALYSIS.md`, `13_MOTION_S
 | Convert homepage scroll reveals from mount-time CSS to real `whileInView` (Framer Motion) | **Shipped**, verified sections reveal correctly on scroll |
 | Fix render-blocking font loading (~800ms, found by Lighthouse) | **Shipped** — preload-then-activate pattern in `index.html`; verified via before/after Lighthouse runs. |
 | Fix `maximum-scale=1` blocking pinch-zoom (found by Lighthouse) | **Shipped** |
-| Resolve canonical domain (`qualitracker.org` vs `qualitracker.co`) | **Open — needs the user's decision**, not a code fix |
+| Resolve canonical domain (`qualitracker.org` vs `qualitracker.co`) | **Resolved — `qualitracker.co`.** See Wave 12. |
 | Run the actual `db push` migration for the new lead kinds/columns | **Open — needs a real `DATABASE_URL`**, not run without knowing the target DB |
 
 ## P1 — Important
@@ -36,7 +36,7 @@ Synthesized from `10_WEBSITE_AUDIT.md`, `12_SKILL_GAP_ANALYSIS.md`, `13_MOTION_S
 | Wire `.qt-thinking` onto a real state | **Shipped** — the Ask QualiTracker demo now has a genuine ~450ms "Checking your lab's records…" thinking beat with the pulsing ring when switching questions, instead of an instant swap. |
 | Non-colour indicator on the accreditation widget | **Shipped** — a small warning icon now appears next to any category under 70%, alongside the existing gold/teal colour coding. |
 | Prune unused shadcn/ui primitives | **Shipped** — removed ~47 unused files from `components/ui/` and the unused `use-mobile` hook; kept only `toast`/`toaster`/`tooltip` (the only ones actually reachable from `App.tsx`). **Real, measured result: CSS bundle dropped from 97 KB to 32 KB raw (17 KB → 7.3 KB gzip)** — Tailwind was generating utility classes for all the dead components' markup. |
-| Structured data (schema.org) | **Open** — once Security/Docs have stable, real content worth marking up. |
+| Structured data (schema.org) | **Shipped.** See Wave 12. |
 | Bundle-visualizer pass for the ~72KB unused-JS Lighthouse found | **Open** — real, measured (~400ms est. LCP impact on home), but the exact culprit needs `rollup-plugin-visualizer` to pinpoint rather than guessed at. |
 | Static-chain → connected graph for `/product`'s technical visualization | **Shipped** — `QualityIntelligenceGraph` (10 nodes, 11 edges, hover-to-highlight) replaced the old linear `quality-knowledge-graph.tsx` chain, using only entities already established elsewhere on the site (no new fabricated concepts). |
 
@@ -44,7 +44,7 @@ Synthesized from `10_WEBSITE_AUDIT.md`, `12_SKILL_GAP_ANALYSIS.md`, `13_MOTION_S
 
 - The "Under the Hood" architecture explorer (deferred since `04_CREATIVE_DIRECTIONS.md` — needs real architecture input from engineering, not something to invent).
 - Full `/docs` content (MCP reference, API reference, Security, Compliance) and the four `/solutions` segment pages — deliberately scaffolded, not written, per `08_PIVOT_ADDENDUM.md`.
-- SSR/prerendering for true per-route SEO metadata (`16_SEO_AUDIT.md`) — a real architectural change, not a quick win.
+- ~~SSR/prerendering for true per-route SEO metadata~~ — **Shipped, see Wave 12.** Turned out not to need the framework migration this item originally implied; build-time headless-browser prerendering fit this site's small, fixed route set.
 
 ## Wave 2 — real-repo-grounded homepage expansion (this pass)
 
@@ -119,6 +119,23 @@ Triggered by "the qualitracker interactive model about quality intelligence shou
 | Icon-badge nodes (lucide icons matching each real concept: shield/standard, file/document, workflow/process, etc.) replacing plain filled dots | **Shipped** — verified the icon nesting inside the parent SVG canvas actually renders correctly (was the one real technical risk in this change). |
 | Active-node halo ring + an animated flow-pulse traveling along that node's real outgoing edges | **Shipped** — respects `useReducedMotion()` (same hook already used elsewhere on the site); verified the pulse genuinely animates (`cx` sampled twice, confirmed moving) and is fully gated off, not just visually paused, when motion is reduced. |
 | Verification | Typecheck/lint/11 tests pass. Visually confirmed in-browser (hover halo + directional highlight + updated detail text). Mobile width: no horizontal overflow. Lighthouse: `/product` 95/100/100/100, `/` 94/100/100/100 — a small, real, disclosed cost (the graph chunk grew from added icons) for a substantially more polished visualization. |
+
+## Wave 12 — canonical domain, structured data, real prerendering
+
+Closes three items that had sat open since the very first audit: the canonical-domain decision, structured data, and SSR/prerendering.
+
+| Item | Status |
+|---|---|
+| Canonical domain — resolved to `qualitracker.co` | **Shipped** — fixed in `index.html` (canonical link, og:url), `public/sitemap.xml` (all 8 URLs), and `public/robots.txt` (sitemap directive). |
+| Per-route canonical URL + og:url, not just title/description | **Shipped** — `useDocumentMeta` previously only updated title/description client-side, leaving every route's canonical/og:url pointing at the homepage until now. Extended to take a `path` and update both, plus twitter:title/description (previously untouched). |
+| Organization JSON-LD (site-wide) | **Shipped** — static in `index.html`, real facts only (name, url, logo, description already established elsewhere on the site; no `sameAs`/`foundingDate` since neither is verified). |
+| SoftwareApplication JSON-LD on `/` and `/product` | **Shipped** — no `offers`/price (none exists, pricing was deliberately removed sitewide) and no `aggregateRating` (no reviews exist) — omitted rather than invented. |
+| Organization(+founder) JSON-LD on `/company` | **Shipped** — built directly from the page's own real `TEAM` array so it can't drift from the roster actually shown. |
+| Build-time prerendering (`scripts/prerender.mjs`, puppeteer) | **Shipped** — a real headless-browser render pass per route, not a Node `renderToString` SSR migration (which would need every framer-motion/IntersectionObserver-dependent component guarded against a DOM-less environment — a much bigger, riskier change than this site's small fixed route set warrants). Wired into `pnpm run build` so it runs on every build going forward, not a one-off. |
+| Real bug caught and fixed during this: prerendering "/" first baked its page-specific JSON-LD into the shared `dist/public/index.html` fallback shell, and every route processed afterward inherited that stale script tag on top of its own | **Caught and fixed** — reordered so "/" is always processed last; re-verified per-route schemas are exactly right with no leakage (`/security` has only the site-wide schema, `/company` has exactly its own two, etc.). |
+| Verification | Confirmed correctness with a real static-directory-serving test server (Python's `http.server`, which — unlike `vite preview` — actually resolves `/security` to `security/index.html` the way a real static host does); `vite preview`'s blanket SPA-fallback was found to no longer correctly represent non-root routes now that real per-route files exist, a real limitation of that tool for this kind of testing going forward, not of the prerendered output itself. |
+| Performance re-check | The static test server's Lighthouse numbers (76–85) were a measurement artifact, not a regression — confirmed via response headers that it serves zero compression (raw ~221KB JS, not the ~70KB gzip a real host would send). Re-tested the one route directly comparable to every prior session number (`/` via `vite preview`, the tool used throughout): 93/100/100/100, holding the established noise band. |
+| Typecheck/lint/11 tests | Pass. |
 
 ## What this plan deliberately does not include
 

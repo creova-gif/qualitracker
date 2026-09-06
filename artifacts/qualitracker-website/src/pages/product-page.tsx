@@ -6,7 +6,8 @@ import { StatusBadge, type ProductStatus } from '@/components/site/status-badge'
 import { QualityIntelligenceGraph, type NodeId } from '@/components/product/quality-intelligence-graph';
 import { AskQualiTrackerDemo } from '@/components/product/ask-qualitracker-demo';
 import { TraceBlock, ExplorerFrame, StatusIndicator } from '@/components/site/technical-block';
-import { useDocumentMeta } from '@/lib/use-document-meta';
+import { useDocumentMeta, useStructuredData } from '@/lib/use-document-meta';
+import { SOFTWARE_APPLICATION_SCHEMA } from '@/lib/structured-data';
 
 // The same nine real entities as QualityIntelligenceGraph's node chain,
 // re-expressed as a linear path — hovering a step here highlights the
@@ -44,7 +45,9 @@ function ProductPage() {
   useDocumentMeta(
     'Product — QualiTracker',
     'The QMS Module and QualiBOT: document control, quality records, and an AI assistant grounded in your lab’s own documents.',
+    '/product',
   );
+  useStructuredData(SOFTWARE_APPLICATION_SCHEMA);
   return (
     <PageShell>
       <section className="py-16 lg:py-20 qt-texture-grid" style={{ backgroundColor: 'var(--qt-dark-navy)' }}>

@@ -20,6 +20,7 @@ function SolutionsPage() {
   useDocumentMeta(
     'Solutions — QualiTracker',
     'QualiTracker for medical, testing, and research laboratories, and multi-site organizations.',
+    '/solutions',
   );
   return (
     <PageShell>
