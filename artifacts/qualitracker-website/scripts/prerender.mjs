@@ -53,12 +53,27 @@ async function main() {
   });
   const base = server.resolvedUrls?.local?.[0];
   if (!base) throw new Error('Preview server did not report a local URL to prerender against.');
+  const basePath = process.env.BASE_PATH || '/';
+  const normalizedBasePath = `/${basePath.replace(/^\/+|\/+$/g, '')}`.replace(/^\/$/, '');
 
-  const browser = await puppeteer.launch({ headless: true });
+  // GitHub-hosted Ubuntu runners disable the user-namespace sandbox that
+  // Chromium otherwise expects. The runner is already an isolated,
+  // short-lived VM, so disable Chromium's sandbox only in CI; local builds
+  // keep the normal browser sandbox enabled.
+  const browser = await puppeteer.launch({
+    headless: true,
+    args: process.env.CI === 'true'
+      ? ['--no-sandbox', '--disable-setuid-sandbox']
+      : [],
+  });
   try {
     const page = await browser.newPage();
     for (const route of ROUTES) {
-      const url = new URL(route, base).toString();
+      // Vite serves project sites below their configured base path. Build the
+      // browser URL from the preview origin so a route such as /product is
+      // visited as /qualitrackerwebsite/product on GitHub Pages builds.
+      const pathname = `${normalizedBasePath}${route}` || '/';
+      const url = new URL(pathname, new URL(base).origin).toString();
       await page.goto(url, { waitUntil: 'networkidle0' });
       // Wait for the route's own useDocumentMeta effect to set a
       // route-specific title — the real signal that the lazy page chunk
